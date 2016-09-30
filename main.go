@@ -124,6 +124,11 @@ func getTopicPages(tid string) int{
     var topicPage map[string]interface{}
     json.NewDecoder(resp.Body).Decode(&topicPage)
 
+    if topicPage["pagination"] == nil{
+        fmt.Printf("Error obtaining topic pages. Maybe Unauthorized? Try setting NBBCOOKIE environment variable.\n")
+        return 0
+    }
+
     pagination := topicPage["pagination"].(map[string]interface{})
     pages := int(pagination["pageCount"].(float64))
 
